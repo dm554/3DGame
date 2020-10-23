@@ -7,4 +7,6 @@ Entity *player_new();
 
 void player_think(Entity *self);
 
+void player_input(Entity *self);
+
 #endif

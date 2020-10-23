@@ -23,13 +23,13 @@ void entity_manager_init(Uint32 maxEntities);
 void entity_manager_close();
 void entity_draw(Entity *self, Uint32 bufferFrame, VkCommandBuffer commandBuffer);
 void entity_draw_all(Uint32 bufferFrame, VkCommandBuffer commandBuffer);
+void entity_update_all();
 
 int entity_return_num();
 
 Entity *entity_new();
 
 Entity entity_update(Entity *self);
-Entity entity_update_all(Entity *self);
 Entity entity_free(Entity *self);
 
 

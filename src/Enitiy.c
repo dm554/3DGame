@@ -61,7 +61,7 @@ Entity entity_update(Entity *self){
 	if (!self)return;
 }
 
-Entity entity_update_all(){
+void entity_update_all(){
 	
 	for (int i = 0; i < entity_manager.entity_count; i++){
 		
