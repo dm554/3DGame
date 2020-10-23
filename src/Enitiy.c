@@ -48,10 +48,10 @@ void entity_manager_close()
 Entity *entity_new(){
 	int i;
 	for (i = 0; i < entity_manager.entity_count; i++){
-		if (entity_manager.entity_list[i]._inuse){
+		if (entity_manager.entity_list[i]._inuse)continue; 
+			memset(&entity_manager.entity_list[i], 0, sizeof(Entity));
 			entity_manager.entity_list[i]._inuse = 1;
 			return &entity_manager.entity_list[i];
-		}
 	}
 	slog("Failed Entity Creation: Need more memory");
 	return NULL;
@@ -61,7 +61,7 @@ Entity entity_update(Entity *self){
 	if (!self)return;
 }
 
-Entity entity_update_all(Entity *self){
+Entity entity_update_all(){
 	
 	for (int i = 0; i < entity_manager.entity_count; i++){
 		
@@ -83,4 +83,22 @@ Entity entity_free(Entity *self){
 	//Possibly need to be freed later
 	//gf3d_mesh_free(self->mesh);
 	//gf3d_texture_free(self->texture);
+	//gf3d_model_free(self->model)
+}
+
+void entity_draw_all(Uint32 bufferFrame, VkCommandBuffer commandBuffer){
+	
+	for (int i = 0; i < entity_manager.entity_count; i++){
+		if (!entity_manager.entity_list[i]._inuse)continue;
+		entity_draw(&entity_manager.entity_list[i], bufferFrame, commandBuffer, &entity_manager.entity_list[i].modelMatrix);
+	}
+
+}
+
+void entity_draw(Entity *self, Uint32 bufferFrame, VkCommandBuffer commandBuffer){
+	gf3d_model_draw(self->model, bufferFrame, commandBuffer, self->modelMatrix);
+}
+
+int entity_return_num(){
+	return 1;
 }

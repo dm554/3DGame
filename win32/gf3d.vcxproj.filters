@@ -99,7 +99,10 @@
     <ClInclude Include="..\gfc\simple_json\include\simple_json_value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
+    <ClInclude Include="..\include\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -194,7 +197,10 @@
     <ClCompile Include="..\src\gf3d_vqueues.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Enitiy.c">
+    <ClCompile Include="..\src\Enitiy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
