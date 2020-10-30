@@ -6,11 +6,13 @@
 #include "gf3d_vgraphics.h"
 #include "gf3d_model.h"
 #include "simple_logger.h"
+#include "gfc_matrix.h"
 
 typedef struct Entity_S{
 	
 	Uint8		_inuse;
 	Vector3D	position;
+	Vector3D	rotation;
 	float		velocity;
 	char		*model;
 	Matrix4		modelMatrix;

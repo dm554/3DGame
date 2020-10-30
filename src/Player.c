@@ -1,5 +1,7 @@
 #include "Player.h"
 
+static Entity *THE_PLAYER;
+
 Entity *player_new(){
 
 	Entity *self;
@@ -34,6 +36,8 @@ void player_input(Entity *self){
 	//SINGLE INPUT DIRECTIONS
 	if (buttons[SDL_SCANCODE_RIGHT]){
 		self->position.x -= (0.1 * self->velocity);
+		self->rotation.z += (0.1 *self->velocity);
+		slog("Rotating");
 	}
 	else if (buttons[SDL_SCANCODE_LEFT]){
 		self->position.x += (0.1 * self->velocity);
@@ -60,7 +64,14 @@ void player_input(Entity *self){
 	}
 
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
+	gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
 
 
 	//NOTE: Y AND Z AXIS ARE FLIPPED?
+}
+
+Entity *player_active(){
+	if (THE_PLAYER != NULL){
+		//return THE_PLAYER;
+	}
 }

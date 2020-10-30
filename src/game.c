@@ -14,6 +14,8 @@
 #include "Entity.h"
 #include "Player.h"
 
+#include "Camera.h"
+
 int main(int argc,char *argv[])
 {
     int done = 0;
@@ -67,15 +69,16 @@ int main(int argc,char *argv[])
         //update game things here
         
 		entity_update_all();
-        gf3d_vgraphics_rotate_camera(0.001);
+		//camera_update();
+        //gf3d_vgraphics_rotate_camera(0.001);
 		
 		/*
 		gfc_matrix_rotate(
-            dino->modelMatrix,
-            dino->modelMatrix,
+            player_active()->modelMatrix,
+            player_active()->modelMatrix,
             0.002,
             vector3d(1,0,0));
-        gfc_matrix_rotate(
+		gfc_matrix_rotate(
             modelMat2,
             modelMat2,
             0.002,
