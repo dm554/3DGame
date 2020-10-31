@@ -24,44 +24,55 @@ void player_think(Entity *self){
 
 void player_input(Entity *self){
 	Uint8 *buttons = SDL_GetKeyboardState(NULL);
-	
+	float speed = 0.1 * self->velocity;
 	//Entity Destruction
 	if (buttons[SDL_SCANCODE_X]){
 		entity_free(self);
 	}
-
-	
 	//Movement Input
 
-	//SINGLE INPUT DIRECTIONS
-	if (buttons[SDL_SCANCODE_RIGHT]){
+	//MULTI INPUT DIRECTIONS
+	if (buttons[SDL_SCANCODE_RIGHT] && buttons[SDL_SCANCODE_UP]){
 		self->position.x -= (0.1 * self->velocity);
-		self->rotation.z += (0.1 *self->velocity);
+		self->position.y -= (0.1 * self->velocity);
+		self->rotation.z = -0.75;
+	}
+	else if (buttons[SDL_SCANCODE_RIGHT] && buttons[SDL_SCANCODE_DOWN]){
+		self->position.x -= (0.1 * self->velocity);
+		self->position.y += (0.1 * self->velocity);
+		self->rotation.z = -2.25;
+	}
+	else if (buttons[SDL_SCANCODE_LEFT] && buttons[SDL_SCANCODE_UP]){
+		self->position.x += (0.1 * self->velocity);
+		self->position.y -= (0.1 * self->velocity);
+		self->rotation.z = 0.75;
+	}
+	else if (buttons[SDL_SCANCODE_LEFT] && buttons[SDL_SCANCODE_DOWN]){
+		self->position.x += (0.1 * self->velocity);
+		self->position.y += (0.1 * self->velocity);
+		self->rotation.z = 2.25;
+	}
+
+	//SINGLE INPUT DIRECTIONS
+	else if (buttons[SDL_SCANCODE_RIGHT]){
+		self->position.x -= (0.1 * self->velocity);
+		self->rotation.z = -1.5;
 		slog("Rotating");
 	}
 	else if (buttons[SDL_SCANCODE_LEFT]){
 		self->position.x += (0.1 * self->velocity);
+		self->rotation.z = 1.5;
 	}
 	else if (buttons[SDL_SCANCODE_UP]){
 		self->position.y -= (0.1 * self->velocity);
+		self->rotation.z = 0;
 	}
 	else if (buttons[SDL_SCANCODE_DOWN]){
 		self->position.y += (0.1 * self->velocity);
+		self->rotation.z = 3.0;
 	}
 
-	//MULTI INPUT DIRECTIONS
-	else if (buttons[SDL_SCANCODE_RIGHT] && buttons[SDL_SCANCODE_UP]){
 
-	}
-	else if(buttons[SDL_SCANCODE_RIGHT] && buttons[SDL_SCANCODE_DOWN]){
-
-	}
-	else if (buttons[SDL_SCANCODE_LEFT] && buttons[SDL_SCANCODE_UP]){
-
-	}
-	else if (buttons[SDL_SCANCODE_RIGHT] && buttons[SDL_SCANCODE_DOWN]){
-
-	}
 
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
 	gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
