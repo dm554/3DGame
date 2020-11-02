@@ -24,13 +24,21 @@ void player_think(Entity *self){
 
 void player_input(Entity *self){
 	Uint8 *buttons = SDL_GetKeyboardState(NULL);
-	float speed = 0.1 * self->velocity;
+	
 	//Entity Destruction
 	if (buttons[SDL_SCANCODE_X]){
 		entity_free(self);
 	}
-	//Movement Input
+	
+	player_ability(self, buttons);
+	player_move(self, buttons);
 
+
+	//NOTE: Y AND Z AXIS ARE FLIPPED?
+}
+
+void player_move(Entity *self, Uint8 *buttons){
+	
 	//MULTI INPUT DIRECTIONS
 	if (buttons[SDL_SCANCODE_RIGHT] && buttons[SDL_SCANCODE_UP]){
 		self->position.x -= (0.1 * self->velocity);
@@ -71,14 +79,29 @@ void player_input(Entity *self){
 		self->position.y += (0.1 * self->velocity);
 		self->rotation.z = 3.0;
 	}
-
-
-
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
 	gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
+}
 
+void player_ability(Entity *self, Uint8 *buttons){
+	if (buttons[SDL_SCANCODE_SPACE]){
+		player_jump(self);
+	}
+	else if (buttons[SDL_SCANCODE_LSHIFT]){
+		player_sprint(self);
+	}
+}
 
-	//NOTE: Y AND Z AXIS ARE FLIPPED?
+void player_sprint(Entity *self){
+	slog("Sprint");
+}
+
+void player_jump(Entity *self){
+	slog("Jump");
+}
+
+void player_dodge(Entity *self){
+
 }
 
 Entity *player_active(){

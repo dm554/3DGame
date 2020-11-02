@@ -13,6 +13,7 @@ typedef struct Entity_S{
 	Uint8		_inuse;
 	Vector3D	position;
 	Vector3D	rotation;
+	float		stamina;
 	float		velocity;
 	char		*model;
 	Matrix4		modelMatrix;
