@@ -69,7 +69,7 @@ int main(int argc,char *argv[])
         //update game things here
         
 		entity_update_all();
-		//camera_update();
+		gf3d_camera_update_position();
         //gf3d_vgraphics_rotate_camera(0.001);
 		
 		/*

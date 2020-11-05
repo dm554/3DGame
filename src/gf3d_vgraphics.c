@@ -663,6 +663,10 @@ void gf3d_vgraphics_rotate_camera(float degrees)
 
 }
 
+void gf3d_vgraphics_set_camera_position(Vector3D camera, Vector3D player){
+	gfc_matrix_view(gf3d_vgraphics.ubo.view, camera, player, vector3d(0, 0, 1));
+}
+
 Pipeline *gf3d_vgraphics_get_graphics_pipeline()
 {
     return gf3d_vgraphics.pipe;

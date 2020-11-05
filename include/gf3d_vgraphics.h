@@ -53,5 +53,5 @@ Command *gf3d_vgraphics_get_graphics_command_pool();
 
 VkImageView gf3d_vgraphics_create_image_view(VkImage image, VkFormat format);
 
-
+void gf3d_vgraphics_set_camera_position(Vector3D camera, Vector3D player);
 #endif

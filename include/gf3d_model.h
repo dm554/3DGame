@@ -44,7 +44,7 @@ typedef struct
     VkBuffer                   *uniformBuffers;
     VkDeviceMemory             *uniformBuffersMemory;
     Uint32                      uniformBufferCount;
-}Model;
+}	Model;
 
 
 void gf3d_model_manager_init(Uint32 max_models,Uint32 chain_length,VkDevice device);

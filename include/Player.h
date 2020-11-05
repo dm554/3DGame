@@ -2,6 +2,7 @@
 #define __GF3D_PLAYER_H__
 
 #include "Entity.h"
+#include "gf3d_camera.h"
 
 static Entity *THE_PLAYER;
 

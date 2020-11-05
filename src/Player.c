@@ -14,6 +14,7 @@ Entity *player_new(){
 	//PLAYER STATS
 	self->velocity = 1;
 
+	THE_PLAYER = self;
 	slog("Player Ent Created");
 	return self;
 }
@@ -81,6 +82,7 @@ void player_move(Entity *self, Uint8 *buttons){
 	}
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
 	gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
+	//gfc_matrix_slog(self->modelMatrix);
 }
 
 void player_ability(Entity *self, Uint8 *buttons){
@@ -106,6 +108,6 @@ void player_dodge(Entity *self){
 
 Entity *player_active(){
 	if (THE_PLAYER != NULL){
-		//return THE_PLAYER;
+		return THE_PLAYER;
 	}
 }

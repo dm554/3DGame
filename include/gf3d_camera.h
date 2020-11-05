@@ -38,4 +38,7 @@ void gf3d_camera_set_position(Vector3D position);
  */
 void gf3d_camera_move(Vector3D move);
 
+Vector3D gf3d_camera_get_position();
+
+void gf3d_camera_update_position();
 #endif
