@@ -79,7 +79,7 @@ void gf3d_camera_update_position(){
 		}
 	}
 
-	if (distancey < 15){
+	if (distancey < 30){
 		if (player->position.y > camera.y){
 			slog("camera moving");
 			cam_position.y -= 0.1;

@@ -13,6 +13,7 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "Cube.h"
 
 #include "Camera.h"
 
@@ -25,6 +26,7 @@ int main(int argc,char *argv[])
     Uint32 bufferFrame = 0;
     VkCommandBuffer commandBuffer;
 	Entity *dino;
+	Entity *cube;
 	//Model *model;
     //Matrix4 modelMat;
     //Model *model2;
@@ -54,6 +56,7 @@ int main(int argc,char *argv[])
     // main game loop
     slog("gf3d main loop begin");
 	dino = player_new();
+	cube = cube_new();
 	//dino->model = gf3d_model_load("dino");
     //gfc_matrix_identity(dino->modelMatrix);
     //model2 = gf3d_model_load("dino");

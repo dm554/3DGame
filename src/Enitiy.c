@@ -59,6 +59,7 @@ Entity *entity_new(){
 
 Entity entity_update(Entity *self){
 	if (!self)return;
+	entity_collision_checker(self);
 }
 
 void entity_update_all(){
@@ -100,5 +101,37 @@ void entity_draw(Entity *self, Uint32 bufferFrame, VkCommandBuffer commandBuffer
 }
 
 int entity_return_num(){
+	return 1;
+}
+
+void entity_collision_checker(Entity *entity){
+	int i;
+	if (!entity)return;
+	for (i = 0; i < entity_manager.entity_count; i++)
+	{
+		if (!entity_manager.entity_list[i]._inuse)continue;
+		if (&entity_manager.entity_list[i] == entity)continue;
+		entity_collide(entity, &entity_manager.entity_list[i]);
+	}
+}
+
+void entity_collide(Entity *ent1, Entity *ent2){
+	if (entity_collide_calc(ent1, ent2))
+	{
+		if (ent1->collide){ 
+			ent1->collide(ent1, ent2); 
+		}
+	}
+}
+
+int entity_collide_calc(Entity *ent1, Entity *ent2){
+	Vector3D e1 = ent1->position;
+	Vector3D e2 = ent2->position;
+	Vector3D e1o = ent1->collision_offset;
+	Vector3D e2o = ent1->collision_offset;
+
+	if ((((e1.x + e1o.x) < e2.x) || ((e2.x + e2o.x) < e1.x)) || (((e1.y + e1o.y) < e2.y) || ((e2.y + e2o.x) < e1.y)) || (((e1.z + e1o.z) < e2.z) || ((e2.z + e2o.z) < e1.z))){
+		return 0;
+	}
 	return 1;
 }

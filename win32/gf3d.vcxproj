@@ -103,6 +103,8 @@
     <ClInclude Include="..\gfc\simple_json\include\simple_json_value.h" />
     <ClInclude Include="..\gfc\simple_logger\include\simple_logger.h" />
     <ClInclude Include="..\include\Camera.h" />
+    <ClInclude Include="..\include\Collider.h" />
+    <ClInclude Include="..\include\Cube.h" />
     <ClInclude Include="..\include\Entity.h" />
     <ClInclude Include="..\include\gf3d_camera.h" />
     <ClInclude Include="..\include\gf3d_commands.h" />
@@ -134,6 +136,7 @@
     <ClCompile Include="..\gfc\src\gfc_types.c" />
     <ClCompile Include="..\gfc\src\gfc_vector.c" />
     <ClCompile Include="..\src\Camera.c" />
+    <ClCompile Include="..\src\Cube.c" />
     <ClCompile Include="..\src\Enitiy.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\gf3d_camera.c" />

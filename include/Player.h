@@ -22,6 +22,8 @@ void player_jump(Entity *self);
 
 void player_dodge(Entity *self);
 
+void player_collision();
+
 Entity *player_active();
 
 #endif

@@ -6,13 +6,16 @@ Entity *player_new(){
 
 	Entity *self;
 	self = entity_new();
-	
 	self->model = gf3d_model_load("dino");
 	gfc_matrix_identity(self->modelMatrix);
 	self->think = player_think;
+	self->collide = player_collision;
 
 	//PLAYER STATS
 	self->velocity = 1;
+
+	//Collider
+	self->collision_offset = vector3d(1, 1, 1);
 
 	THE_PLAYER = self;
 	slog("Player Ent Created");
@@ -110,4 +113,8 @@ Entity *player_active(){
 	if (THE_PLAYER != NULL){
 		return THE_PLAYER;
 	}
+}
+
+void player_collision(){
+	slog("Collision Detected");
 }
