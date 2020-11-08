@@ -60,32 +60,26 @@ void gf3d_camera_update_position(){
 	cam_position.z = player->position.z + 20;
 	
 	if (player->position.x > camera.x){
-		slog("camera moving");
 		cam_position.x += 0.1;
 	}
 	if (camera.x > player->position.x){
-		slog("camera moving");
 		cam_position.x -= 0.1;
 	}
 
 	if (distancey > 40){
 		if (player->position.y > camera.y){
-			slog("camera moving");
 			cam_position.y += 0.1;
 		}
 		if (camera.y > player->position.y){
-			slog("camera moving");
 			cam_position.y -= 0.1;
 		}
 	}
 
 	if (distancey < 30){
 		if (player->position.y > camera.y){
-			slog("camera moving");
 			cam_position.y -= 0.1;
 		}
 		if (camera.y > player->position.y){
-			slog("camera moving");
 			cam_position.y += 0.1;
 		}
 	}

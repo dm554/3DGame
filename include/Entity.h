@@ -20,7 +20,9 @@ typedef struct Entity_S{
 	char		*model;
 	Matrix4		modelMatrix;
 	char		name;
-	
+	Uint8		angle;
+	Uint8		state; //1 = Idle, 2 = Moving, 3 = Attacking, 4 = Hitstun 
+
 	void(*think)(struct Entity_S *self);
 	void(*collide)(struct Entity_S *self);
 

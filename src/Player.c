@@ -13,10 +13,10 @@ Entity *player_new(){
 
 	//PLAYER STATS
 	self->velocity = 1;
+	self->state = 1;
 
 	//Collider
-	self->collision_offset = vector3d(1, 1, 1);
-
+	self->collision_offset = vector3d(5, 5, 5);
 	THE_PLAYER = self;
 	slog("Player Ent Created");
 	return self;
@@ -34,9 +34,9 @@ void player_input(Entity *self){
 		entity_free(self);
 	}
 	
+	player_attack_command(self, buttons);
 	player_ability(self, buttons);
 	player_move(self, buttons);
-
 
 	//NOTE: Y AND Z AXIS ARE FLIPPED?
 }
@@ -48,40 +48,47 @@ void player_move(Entity *self, Uint8 *buttons){
 		self->position.x -= (0.1 * self->velocity);
 		self->position.y -= (0.1 * self->velocity);
 		self->rotation.z = -0.75;
+		self->angle = 2;
 	}
 	else if (buttons[SDL_SCANCODE_RIGHT] && buttons[SDL_SCANCODE_DOWN]){
 		self->position.x -= (0.1 * self->velocity);
 		self->position.y += (0.1 * self->velocity);
 		self->rotation.z = -2.25;
+		self->angle = 4;
 	}
 	else if (buttons[SDL_SCANCODE_LEFT] && buttons[SDL_SCANCODE_UP]){
 		self->position.x += (0.1 * self->velocity);
 		self->position.y -= (0.1 * self->velocity);
 		self->rotation.z = 0.75;
+		self->angle = 8;
 	}
 	else if (buttons[SDL_SCANCODE_LEFT] && buttons[SDL_SCANCODE_DOWN]){
 		self->position.x += (0.1 * self->velocity);
 		self->position.y += (0.1 * self->velocity);
 		self->rotation.z = 2.25;
+		self->angle = 6;
 	}
 
 	//SINGLE INPUT DIRECTIONS
 	else if (buttons[SDL_SCANCODE_RIGHT]){
 		self->position.x -= (0.1 * self->velocity);
 		self->rotation.z = -1.5;
-		slog("Rotating");
+		self->angle = 3;
 	}
 	else if (buttons[SDL_SCANCODE_LEFT]){
 		self->position.x += (0.1 * self->velocity);
 		self->rotation.z = 1.5;
+		self->angle = 7;
 	}
 	else if (buttons[SDL_SCANCODE_UP]){
 		self->position.y -= (0.1 * self->velocity);
 		self->rotation.z = 0;
+		self->angle = 1;
 	}
 	else if (buttons[SDL_SCANCODE_DOWN]){
 		self->position.y += (0.1 * self->velocity);
 		self->rotation.z = 3.0;
+		self->angle = 5;
 	}
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
 	gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
@@ -115,6 +122,24 @@ Entity *player_active(){
 	}
 }
 
-void player_collision(){
+void player_collision(Entity *self, Entity *ent2){
+	
 	slog("Collision Detected");
+	if (self->state == 3){
+		player_attack(self, ent2);
+	}
+	
+}
+
+void player_attack(Entity *self, Entity *ent2){
+	ent2->position.x += 1;
+	gfc_matrix_make_translation(ent2->modelMatrix, ent2->position);
+	//self->state = 1;
+}
+
+void player_attack_command(Entity *self, Uint8 *buttons){
+	if (buttons[SDL_SCANCODE_W]){
+		self->state = 3;
+	}
+
 }

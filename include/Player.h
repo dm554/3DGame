@@ -22,7 +22,11 @@ void player_jump(Entity *self);
 
 void player_dodge(Entity *self);
 
-void player_collision();
+void player_collision(Entity *self, Entity *ent2);
+
+void player_attack(Entity *self, Entity *ent2);
+
+void player_attack_command(Entity *self, Uint8 *buttons);
 
 Entity *player_active();
 
