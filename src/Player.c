@@ -124,7 +124,7 @@ Entity *player_active(){
 
 void player_collision(Entity *self, Entity *ent2){
 	
-	slog("Collision Detected");
+	//slog("Collision Detected");
 	if (self->state == 3){
 		player_attack(self, ent2);
 	}
@@ -132,8 +132,8 @@ void player_collision(Entity *self, Entity *ent2){
 }
 
 void player_attack(Entity *self, Entity *ent2){
-	ent2->position.x += 1;
-	gfc_matrix_make_translation(ent2->modelMatrix, ent2->position);
+	//ent2->position.x += 1;
+	//gfc_matrix_make_translation(ent2->modelMatrix, ent2->position);
 	//self->state = 1;
 }
 

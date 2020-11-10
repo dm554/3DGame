@@ -27,6 +27,7 @@ int main(int argc,char *argv[])
     VkCommandBuffer commandBuffer;
 	Entity *dino;
 	Entity *cube;
+	Entity *floor;
 	//Model *model;
     //Matrix4 modelMat;
     //Model *model2;

@@ -1,5 +1,5 @@
-#ifndef __GF3D_PLAYER_H__
-#define __GF3D_PLAYER_H__
+#ifndef __GF3D_CUBE_H__
+#define __GF3D_CUBE_H__
 
 #include "Entity.h"
 
@@ -7,4 +7,9 @@ Entity *cube_new();
 
 void cube_think(Entity *self);
 
+void cube_collide(Entity *self, Entity *ent2);
+
+void cube_powerups(Entity *ent2);
+
+void cube_speed(int timer, float speed);
 #endif

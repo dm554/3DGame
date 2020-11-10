@@ -128,10 +128,11 @@ int entity_collide_calc(Entity *ent1, Entity *ent2){
 	Vector3D e1 = ent1->position;
 	Vector3D e2 = ent2->position;
 	Vector3D e1o = ent1->collision_offset;
-	Vector3D e2o = ent1->collision_offset;
+	Vector3D e2o = ent2->collision_offset;
 
 	if ((((e1.x + e1o.x) < e2.x) || ((e2.x + e2o.x) < e1.x)) || (((e1.y + e1o.y) < e2.y) || ((e2.y + e2o.x) < e1.y)) || (((e1.z + e1o.z) < e2.z) || ((e2.z + e2o.z) < e1.z))){
 		return 0;
 	}
+	slog("collision detected");
 	return 1;
 }
