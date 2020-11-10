@@ -15,6 +15,8 @@ typedef struct Entity_S{
 	Vector3D	position;
 	Vector3D	rotation;
 	Vector3D	collision_offset;
+	float		gravity;
+	float		starting_height;
 	float		stamina;
 	float		velocity;
 	char		*model;

@@ -37,15 +37,19 @@ void cube_powerups(Entity *ent2){
 	int powerup = 1;
 	switch (powerup){
 		case 0:
-			cube_speed(1500, 5);
+			cube_speed(3000, 15);
 			break;
 		case 1:
+			cube_low_gravity(1500, 0.6);
 			break;
 		case 2:
+			cube_health(20);
 			break;
 		case 3:
+			cube_stamina(40);
 			break;
 		case 4:
+			cube_invincible(1500);
 			break;
 	}
 }
@@ -58,4 +62,26 @@ void cube_speed(int timer, float speed){
 			player->velocity = 1;
 		}
 	}
+}
+
+void cube_low_gravity(int timer, float new_gravity){
+	for (int i = 0; i < timer; i++){
+		Entity *player = player_active();
+		player->gravity = new_gravity;
+		if (i == (timer - 1)){
+			player->gravity = 1;
+		}
+	}
+}
+
+void cube_health(int amount){
+
+}
+
+void cube_stamina(int amount){
+
+}
+
+void cube_invincible(int timer){
+
 }

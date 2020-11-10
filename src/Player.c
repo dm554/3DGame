@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "SDL.h"
 
 static Entity *THE_PLAYER;
 
@@ -14,6 +15,8 @@ Entity *player_new(){
 	//PLAYER STATS
 	self->velocity = 1;
 	self->state = 1;
+	self->gravity = 0.3;
+	self->starting_height = self->position.z;
 
 	//Collider
 	self->collision_offset = vector3d(5, 5, 5);
@@ -24,6 +27,7 @@ Entity *player_new(){
 
 void player_think(Entity *self){
 	player_input(self);
+	player_gravity(self);
 }
 
 void player_input(Entity *self){
@@ -96,10 +100,26 @@ void player_move(Entity *self, Uint8 *buttons){
 }
 
 void player_ability(Entity *self, Uint8 *buttons){
-	if (buttons[SDL_SCANCODE_SPACE]){
-		player_jump(self);
+	SDL_Event event;
+	while (SDL_PollEvent(&event)){
+		switch (event.type){
+			/* Look for a keypress */
+		case SDL_KEYDOWN:
+			/* Check the SDLKey values and move change the coords */
+			switch (event.key.keysym.sym){
+			case SDLK_SPACE:
+				player_jump(self);
+				break;
+			default:
+				break;
+			}
+		}
 	}
-	else if (buttons[SDL_SCANCODE_LSHIFT]){
+
+	/*if (buttons[SDL_SCANCODE_SPACE]){
+		player_jump(self);
+	}*/
+	if (buttons[SDL_SCANCODE_LSHIFT]){
 		player_sprint(self);
 	}
 }
@@ -109,6 +129,10 @@ void player_sprint(Entity *self){
 }
 
 void player_jump(Entity *self){
+	for (int i = 0; i < 5; i++){
+		self->position.z += 0.7;
+		gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
+	}
 	slog("Jump");
 }
 
@@ -142,4 +166,11 @@ void player_attack_command(Entity *self, Uint8 *buttons){
 		self->state = 3;
 	}
 
+}
+
+void player_gravity(Entity *self){
+	if (self->position.z > self->starting_height){
+		self->position.z -= self->gravity;
+		gfc_matrix_make_translation(self->modelMatrix, self->position);
+	}
 }
