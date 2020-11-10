@@ -34,13 +34,13 @@ void cube_collide(Entity *self, Entity *ent2){
 
 void cube_powerups(Entity *ent2){
 	//int powerup = rand() % 4;
-	int powerup = 1;
+	int powerup = 2;
 	switch (powerup){
 		case 0:
 			cube_speed(3000, 15);
 			break;
 		case 1:
-			cube_low_gravity(1500, 0.6);
+			cube_low_gravity(3000, 0.03);
 			break;
 		case 2:
 			cube_health(20);
@@ -69,17 +69,21 @@ void cube_low_gravity(int timer, float new_gravity){
 		Entity *player = player_active();
 		player->gravity = new_gravity;
 		if (i == (timer - 1)){
-			player->gravity = 1;
+			player->gravity = 0.3;
 		}
 	}
 }
 
 void cube_health(int amount){
-
+	for (int i = 0; i < amount; i++){
+		player_active()->health += 1;
+	}
 }
 
 void cube_stamina(int amount){
-
+	for (int i = 0; i < amount; i++){
+		player_active()->stamina += 1;
+	}
 }
 
 void cube_invincible(int timer){

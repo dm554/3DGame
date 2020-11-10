@@ -30,6 +30,8 @@ void player_attack_command(Entity *self, Uint8 *buttons);
 
 void player_gravity(Entity *self);
 
+void player_stat_reset(Entity *self);
+
 Entity *player_active();
 
 #endif

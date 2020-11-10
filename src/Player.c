@@ -16,6 +16,7 @@ Entity *player_new(){
 	self->velocity = 1;
 	self->state = 1;
 	self->gravity = 0.3;
+	self->stamina = 100;
 	self->starting_height = self->position.z;
 
 	//Collider
@@ -37,7 +38,7 @@ void player_input(Entity *self){
 	if (buttons[SDL_SCANCODE_X]){
 		entity_free(self);
 	}
-	
+	player_stat_reset(self);
 	player_attack_command(self, buttons);
 	player_ability(self, buttons);
 	player_move(self, buttons);
@@ -110,34 +111,39 @@ void player_ability(Entity *self, Uint8 *buttons){
 			case SDLK_SPACE:
 				player_jump(self);
 				break;
+			case SDLK_LCTRL:
+				player_dodge(self);
 			default:
 				break;
 			}
 		}
 	}
-
-	/*if (buttons[SDL_SCANCODE_SPACE]){
-		player_jump(self);
-	}*/
 	if (buttons[SDL_SCANCODE_LSHIFT]){
 		player_sprint(self);
 	}
 }
 
 void player_sprint(Entity *self){
+	if (self->stamina > 0){
+		self->velocity += self->velocity;
+		self->stamina -= 0.1;
+	}
 	slog("Sprint");
 }
 
 void player_jump(Entity *self){
-	for (int i = 0; i < 5; i++){
-		self->position.z += 0.7;
-		gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
+	for (int i = 0; i < 10; i++){
+		self->position.z += 0.5;
 	}
 	slog("Jump");
 }
 
 void player_dodge(Entity *self){
-
+	if (self->stamina < 30){
+		self->velocity = 50;
+		self->stamina -= 30;
+		slog("dodge");
+	}
 }
 
 Entity *player_active(){
@@ -172,5 +178,10 @@ void player_gravity(Entity *self){
 	if (self->position.z > self->starting_height){
 		self->position.z -= self->gravity;
 		gfc_matrix_make_translation(self->modelMatrix, self->position);
+		gfc_matrix_rotate(self->modelMatrix, self->modelMatrix, self->rotation.z, vector3d(0, 0, 1));
 	}
+}
+
+void player_stat_reset(Entity *self){
+	self->velocity = 1;
 }
