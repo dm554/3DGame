@@ -4,9 +4,9 @@ Entity *telpad_new(){
 
 	Entity *self;
 	self = entity_new();
-	self->model = gf3d_model_load("cube");
+	self->model = gf3d_model_load("tp");
 	gfc_matrix_identity(self->modelMatrix);
-	self->position.x -= 15;
+	self->position.x += -140;
 	self->position.y += 20;
 	self->rotation.x = 1.6;
 	self->collision_offset = vector3d(1, 1, 10);

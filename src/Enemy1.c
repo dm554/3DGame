@@ -13,7 +13,8 @@ Entity *enemy1_new(){
 	self->velocity = 0.08;
 	//STATS
 	self->velocity = 1;
-	self->position.x += 10;
+	self->position.x += 110;
+	self->position.y += 45;
 
 	//Collider
 	self->collision_offset = vector3d(5, 5, 5);
@@ -35,20 +36,23 @@ void enemy1_move(Entity *self){
 	if (pos.x > player.x){
 		self->position.x -= 0.08;
 	}
-	if (pos.z < player.z){
-		self->position.z += 0.08;
+	if (pos.y < player.y){
+		self->position.y += 0.08;
 	}
-	if (pos.z > player.z){
-		self->position.z -= 0.08;
+	if (pos.y > player.y){
+		self->position.y -= 0.08;
 	}
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
 }
 
 void enemy1_collision(Entity *self, Entity *ent2){
 	enemy1_attack(self, ent2);
-	entity_free(self);
+	//entity_free(self);
 }
 
 void enemy1_attack(Entity *self, Entity *ent2){
-	ent2->health -= 10;
+	if (!ent2->invincible){
+		ent2->health -= 10;
+		ent2->position.z += 3;
+	}
 }

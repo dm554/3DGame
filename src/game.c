@@ -34,6 +34,10 @@ int main(int argc,char *argv[])
     VkCommandBuffer commandBuffer;
 	Entity *dino;
 	Entity *cube;
+	Entity *cube1;
+	Entity *cube2;
+	Entity *cube3;
+	Entity *cube4;
 	Entity *floor;
 	Entity *jumppad;
 	Entity *speedpad;
@@ -43,8 +47,8 @@ int main(int argc,char *argv[])
 	Entity *enemy3;
 	//Model *model;
     //Matrix4 modelMat;
-    //Model *model2;
-    //Matrix4 modelMat2;
+    Model *skybox;
+    Matrix4 skyboxmat;
     
     for (a = 1; a < argc;a++)
     {
@@ -70,19 +74,27 @@ int main(int argc,char *argv[])
     // main game loop
     slog("gf3d main loop begin");
 	dino = player_new();
-	//cube = cube_new();
 	floor = floor_new();
-	//jumppad = jumppad_new();
-	//speedpad = speedpad_new();
-	//telpad = telpad_new();
-	//enemy1 = enemy1_new();
-	//enemy2 = enemy2_new();
-	//enemy3 = enemy3_new();
+	/*
+	cube = cube_new(0, 155);
+	cube1 = cube_new(1, 125);
+	cube2 = cube_new(2, 95);
+	cube3 = cube_new(3, 65);
+	cube4 = cube_new(4, 35);
+	
+	jumppad = jumppad_new();
+	speedpad = speedpad_new();
+	telpad = telpad_new();
+	*/
+	
+	enemy1 = enemy1_new();
+	enemy2 = enemy2_new();
+	enemy3 = enemy3_new();
 	
 	//dino->model = gf3d_model_load("dino");
     //gfc_matrix_identity(dino->modelMatrix);
-    //model2 = gf3d_model_load("dino");
-    //gfc_matrix_identity(modelMat2);
+    //skybox = gf3d_model_load("skybox");
+    //gfc_matrix_identity(skyboxmat);
     //gfc_matrix_make_translation(
      //       modelMat2,
        //     vector3d(10,0,0)
@@ -119,7 +131,7 @@ int main(int argc,char *argv[])
 		entity_draw_all(bufferFrame, commandBuffer);
 
 		//gf3d_model_draw(dino->model,bufferFrame,commandBuffer, dino->modelMatrix);
-        //gf3d_model_draw(model2,bufferFrame,commandBuffer,modelMat2);
+        //gf3d_model_draw(skybox,bufferFrame,commandBuffer,skyboxmat);
             
 		gf3d_command_rendering_end(commandBuffer);
             

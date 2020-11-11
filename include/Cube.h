@@ -3,13 +3,13 @@
 
 #include "Entity.h"
 
-Entity *cube_new();
+Entity *cube_new(int type, float x);
 
 void cube_think(Entity *self);
 
 void cube_collide(Entity *self, Entity *ent2);
 
-void cube_powerups(Entity *ent2);
+void cube_powerups(Entity *ent2, int type);
 
 void cube_speed(int timer, float speed);
 

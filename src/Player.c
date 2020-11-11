@@ -17,6 +17,9 @@ Entity *player_new(){
 	self->state = 1;
 	self->gravity = 0.3;
 	self->stamina = 100;
+	self->speedPad = 0;
+	self->health = 50;
+	self->sprintFactor = 1;
 	self->starting_height = self->position.z;
 
 	//Collider
@@ -29,6 +32,8 @@ Entity *player_new(){
 void player_think(Entity *self){
 	player_input(self);
 	player_gravity(self);
+	slog("Health: %f", self->health);
+	slog("X: %f, Y: %f", self->position.x, self->position.y);
 }
 
 void player_input(Entity *self){
@@ -110,7 +115,7 @@ void player_ability(Entity *self, Uint8 *buttons){
 			/* Check the SDLKey values and move change the coords */
 			switch (event.key.keysym.sym){
 			case SDLK_SPACE:
-				player_jump(self);
+				if (self->position.z < 4){ player_jump(self); }
 				break;
 			case SDLK_LCTRL:
 				player_dodge(self);
@@ -123,11 +128,18 @@ void player_ability(Entity *self, Uint8 *buttons){
 	if (buttons[SDL_SCANCODE_LSHIFT]){
 		player_sprint(self);
 	}
+	if (self->speedPad > 0){
+		if (buttons[SDL_SCANCODE_SPACE]){
+			self->position.z += 0.5;
+			self->speedPad--;
+			slog("jetpack");
+		}
+	}
 }
 
 void player_sprint(Entity *self){
 	if (self->stamina > 0){
-		self->velocity += self->velocity;
+		self->velocity += self->sprintFactor;
 		self->stamina -= 0.1;
 	}
 	slog("Sprint");

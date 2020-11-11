@@ -5,6 +5,8 @@ Entity *jumppad_new(){
 	self = entity_new();
 	self->model = gf3d_model_load("cube");
 	gfc_matrix_identity(self->modelMatrix);
+	self->position.x += -140;
+	self->position.y += -80;
 	self->rotation.x = 1.6;
 	self->collision_offset = vector3d(1,1,1);
 	self->think = jumppad_think;

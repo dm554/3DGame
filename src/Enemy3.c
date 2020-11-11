@@ -14,7 +14,8 @@ Entity *enemy3_new(){
 	self->velocity = 0.08;
 	//STATS
 	self->velocity = 1;
-	self->position.y -= 50;
+	self->position.x += 0;
+	self->position.y += -75;
 
 	//Collider
 	self->collision_offset = vector3d(5, 5, 5);
@@ -93,5 +94,5 @@ void enemy3_collision(Entity *self, Entity *ent2){
 }
 
 void enemy3_attack(Entity *self, Entity *ent2){
-	ent2->health -= 15;
+	if (!ent2->invincible){ ent2->health -= 15; }
 }

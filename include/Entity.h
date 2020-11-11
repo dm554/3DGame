@@ -23,6 +23,9 @@ typedef struct Entity_S{
 	int			jumptime;
 	int			dashtime;
 	int			speedPad;
+	int			speedUp;
+	float		sprintFactor;
+	int			invincible;
 	char		*model;
 	Matrix4		modelMatrix;
 	char		name;

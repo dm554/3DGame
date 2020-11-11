@@ -6,9 +6,10 @@ Entity *speedpad_new(){
 	self = entity_new();
 	self->model = gf3d_model_load("cube");
 	gfc_matrix_identity(self->modelMatrix);
-	self->position.x -= 10;
+	self->position.x += -140;
+	self->position.x += -30;
 	self->rotation.x = 1.6;
-	self->collision_offset = vector3d(1, 1, 10);
+	self->collision_offset = vector3d(1, 1, 1);
 	self->think = speedpad_think;
 	self->collide = speedpad_collide;
 	self->speedPad = 1;
@@ -22,4 +23,6 @@ void speedpad_think(Entity *self){}
 
 void speedpad_collide(Entity *self, Entity *ent2){
 	slog("speed");
+	ent2->speedPad = 1000;
+	entity_free(self);
 }
