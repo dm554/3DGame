@@ -57,7 +57,7 @@ void gf3d_camera_update_position(){
 	Vector3D camera = cam_position;
 	float distancex = abs(player->position.x - camera.x);
 	float distancey = abs(player->position.y - camera.y);
-	cam_position.z = player->position.z + 20;
+	cam_position.z = player->position.z + 30;
 	
 	if (player->position.x > camera.x){
 		cam_position.x += 0.1;
