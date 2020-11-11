@@ -14,6 +14,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Cube.h"
+#include "Floor.h"
 
 #include "Camera.h"
 
@@ -58,6 +59,7 @@ int main(int argc,char *argv[])
     slog("gf3d main loop begin");
 	dino = player_new();
 	cube = cube_new();
+	floor = floor_new();
 	//dino->model = gf3d_model_load("dino");
     //gfc_matrix_identity(dino->modelMatrix);
     //model2 = gf3d_model_load("dino");

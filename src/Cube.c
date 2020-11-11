@@ -14,7 +14,7 @@ Entity *cube_new(){
 	self->rotation.z += 0.01;
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
 	self->velocity = 1;
-
+	
 	//Collider
 	self->collision_offset = vector3d(1, 1, 5);
 	slog("Cube Ent Created");
@@ -34,7 +34,7 @@ void cube_collide(Entity *self, Entity *ent2){
 
 void cube_powerups(Entity *ent2){
 	//int powerup = rand() % 4;
-	int powerup = 2;
+	int powerup = 1;
 	switch (powerup){
 		case 0:
 			cube_speed(3000, 15);

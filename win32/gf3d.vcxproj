@@ -106,6 +106,7 @@
     <ClInclude Include="..\include\Collider.h" />
     <ClInclude Include="..\include\Cube.h" />
     <ClInclude Include="..\include\Entity.h" />
+    <ClInclude Include="..\include\Floor.h" />
     <ClInclude Include="..\include\gf3d_camera.h" />
     <ClInclude Include="..\include\gf3d_commands.h" />
     <ClInclude Include="..\include\gf3d_extensions.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="..\src\Camera.c" />
     <ClCompile Include="..\src\Cube.c" />
     <ClCompile Include="..\src\Enitiy.c" />
+    <ClCompile Include="..\src\Floor.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\gf3d_camera.c" />
     <ClCompile Include="..\src\gf3d_commands.c" />
