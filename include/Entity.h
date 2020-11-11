@@ -22,6 +22,7 @@ typedef struct Entity_S{
 	float		velocity;
 	int			jumptime;
 	int			dashtime;
+	int			speedPad;
 	char		*model;
 	Matrix4		modelMatrix;
 	char		name;

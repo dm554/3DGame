@@ -15,6 +15,9 @@
 #include "Player.h"
 #include "Cube.h"
 #include "Floor.h"
+#include "JumpPad.h"
+#include "SpeedPad.h"
+#include "TPpad.h"
 
 #include "Camera.h"
 
@@ -29,6 +32,9 @@ int main(int argc,char *argv[])
 	Entity *dino;
 	Entity *cube;
 	Entity *floor;
+	Entity *jumppad;
+	Entity *speedpad;
+	Entity *telpad;
 	//Model *model;
     //Matrix4 modelMat;
     //Model *model2;
@@ -58,8 +64,12 @@ int main(int argc,char *argv[])
     // main game loop
     slog("gf3d main loop begin");
 	dino = player_new();
-	cube = cube_new();
+	//cube = cube_new();
 	floor = floor_new();
+	//jumppad = jumppad_new();
+	speedpad = speedpad_new();
+	telpad = telpad_new();
+	
 	//dino->model = gf3d_model_load("dino");
     //gfc_matrix_identity(dino->modelMatrix);
     //model2 = gf3d_model_load("dino");
