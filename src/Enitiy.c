@@ -97,6 +97,7 @@ void entity_draw_all(Uint32 bufferFrame, VkCommandBuffer commandBuffer){
 }
 
 void entity_draw(Entity *self, Uint32 bufferFrame, VkCommandBuffer commandBuffer){
+	if (!self->model)return;
 	gf3d_model_draw(self->model, bufferFrame, commandBuffer, self->modelMatrix);
 }
 

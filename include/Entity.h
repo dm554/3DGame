@@ -20,11 +20,13 @@ typedef struct Entity_S{
 	float		health;
 	float		stamina;
 	float		velocity;
+	int			jumptime;
+	int			dashtime;
 	char		*model;
 	Matrix4		modelMatrix;
 	char		name;
 	Uint8		angle;
-	Uint8		state; //1 = Idle, 2 = Moving, 3 = Attacking, 4 = Hitstun 
+	Uint8		state; //1 = Idle, 2 = Moving, 3 = Jumping, 4 = Dashing 
 
 	void(*think)(struct Entity_S *self);
 	void(*collide)(struct Entity_S *self);

@@ -32,6 +32,8 @@ void player_gravity(Entity *self);
 
 void player_stat_reset(Entity *self);
 
+void player_increment(Entity *self);
+
 Entity *player_active();
 
 #endif

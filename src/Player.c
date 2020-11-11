@@ -41,6 +41,7 @@ void player_input(Entity *self){
 	player_stat_reset(self);
 	player_attack_command(self, buttons);
 	player_ability(self, buttons);
+	player_increment(self);
 	player_move(self, buttons);
 
 	//NOTE: Y AND Z AXIS ARE FLIPPED?
@@ -113,6 +114,7 @@ void player_ability(Entity *self, Uint8 *buttons){
 				break;
 			case SDLK_LCTRL:
 				player_dodge(self);
+				break;
 			default:
 				break;
 			}
@@ -132,16 +134,16 @@ void player_sprint(Entity *self){
 }
 
 void player_jump(Entity *self){
-	for (int i = 0; i < 10; i++){
-		self->position.z += 0.5;
-	}
+	self->state = 3;
+	self->jumptime = 15;
 	slog("Jump");
 }
 
 void player_dodge(Entity *self){
-	if (self->stamina < 30){
-		self->velocity = 50;
+	if (self->stamina > 30){
 		self->stamina -= 30;
+		self->dashtime = 5;
+		self->state = 4;
 		slog("dodge");
 	}
 }
@@ -184,4 +186,18 @@ void player_gravity(Entity *self){
 
 void player_stat_reset(Entity *self){
 	self->velocity = 1;
+}
+
+void player_increment(Entity *self){
+	if (self->state = 3 && self->jumptime > 0){
+		self->jumptime--;
+		self->position.z += 0.7;
+	}
+	if (self->state = 4 && self->dashtime > 0){
+		self->dashtime--;
+		self->velocity = 20;
+	}
+	else{
+		self->stamina += 0.1;
+	}
 }
