@@ -19,6 +19,8 @@
 #include "SpeedPad.h"
 #include "TPpad.h"
 #include "Enemy1.h"
+#include "Enemy2.h"
+#include "Enemy3.h"
 
 #include "Camera.h"
 
@@ -38,6 +40,7 @@ int main(int argc,char *argv[])
 	Entity *telpad;
 	Entity *enemy1;
 	Entity *enemy2;
+	Entity *enemy3;
 	//Model *model;
     //Matrix4 modelMat;
     //Model *model2;
@@ -72,8 +75,9 @@ int main(int argc,char *argv[])
 	//jumppad = jumppad_new();
 	//speedpad = speedpad_new();
 	//telpad = telpad_new();
-	enemy1 = enemy1_new();
-	enemy2 = enemy2_new();
+	//enemy1 = enemy1_new();
+	//enemy2 = enemy2_new();
+	//enemy3 = enemy3_new();
 	
 	//dino->model = gf3d_model_load("dino");
     //gfc_matrix_identity(dino->modelMatrix);

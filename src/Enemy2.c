@@ -50,18 +50,18 @@ void enemy2_move(Entity *self){
 	}
 	if (distancex <= 30){
 		if (pos.x < player.x){
-			self->position.x += 0.1;
+			self->position.x += 0.15;
 		}
 		if (pos.x > player.x){
-			self->position.x -= 0.1;
+			self->position.x -= 0.15;
 		}
 	}
 	if (distancey <= 30){
 		if (pos.y < player.y){
-			self->position.y += 0.1;
+			self->position.y += 0.15;
 		}
 		if (pos.y > player.y){
-			self->position.y -= 0.1;
+			self->position.y -= 0.15;
 		}
 	}
 	gfc_matrix_make_translation(self->modelMatrix, self->position);
