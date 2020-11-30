@@ -6,6 +6,8 @@
 
 static Entity *THE_PLAYER;
 
+static Entity *target;
+
 Entity *player_new();
 
 void player_think(Entity *self);
@@ -35,5 +37,7 @@ void player_stat_reset(Entity *self);
 void player_increment(Entity *self);
 
 Entity *player_active();
+
+Entity *player_target();
 
 #endif

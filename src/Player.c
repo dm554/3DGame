@@ -1,7 +1,8 @@
 #include "Player.h"
 #include "SDL.h"
-
+#include "combat.h"
 static Entity *THE_PLAYER;
+static Entity *target;
 
 Entity *player_new(){
 
@@ -32,8 +33,8 @@ Entity *player_new(){
 void player_think(Entity *self){
 	player_input(self);
 	player_gravity(self);
-	slog("Health: %f", self->health);
-	slog("X: %f, Y: %f", self->position.x, self->position.y);
+	//slog("Health: %f", self->health);
+	//slog("X: %f, Y: %f", self->position.x, self->position.y);
 }
 
 void player_input(Entity *self){
@@ -120,6 +121,15 @@ void player_ability(Entity *self, Uint8 *buttons){
 			case SDLK_LCTRL:
 				player_dodge(self);
 				break;
+			case SDLK_q:
+				combat_engage(self, 1);
+				break;
+			case SDLK_e:
+				combat_engage(self, 2);
+				break;
+			case SDLK_r:
+				combat_engage(self, 3);
+				break;
 			default:
 				break;
 			}
@@ -172,6 +182,7 @@ void player_collision(Entity *self, Entity *ent2){
 	if (self->state == 3){
 		player_attack(self, ent2);
 	}
+	target = ent2;
 	
 }
 
@@ -212,4 +223,8 @@ void player_increment(Entity *self){
 	else{
 		self->stamina += 0.1;
 	}
+}
+
+Entity *player_target(){
+	return target;
 }
