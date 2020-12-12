@@ -13,17 +13,19 @@ void combat_engage(Entity *player, int player_input){
 void combo_router(Entity *player, int player_input){
 	
 	input_counter(player_input);
-	slog("combat hit run");
 	switch (input_count){
 		case 1:
 			if (input_1 = 1){
 				//Light Attack 1
+				combat_hit(player, 1, 100);
 			}
 			else if (input_1 = 2){
 				//Medium Attack 1
+				combat_hit(player, 2, 200);
 			}
 			else if (input_1 = 3){
 				//Heavy Attack 
+				combat_hit(player, 2, 300);
 			}
 			else{
 				input_clear();
@@ -76,12 +78,47 @@ void input_clear(){
 }
 
 void combat_hit(Entity *player, float hitstun, float knockback){
-	
+
+	//sets target variable 
 	Entity *target = player_target();
+	
+	//check to see if there is a target
 	if (target != NULL){
+
+		//applies hitstun 
 		target->hitstun += hitstun;
-		target->position.y += knockback;
-		target->position.z += knockback;
+		
+		//applies knockback
+		switch (player->angle){
+		case 1:
+			target->position.y -= knockback;
+			break;
+		case 2:
+			target->position.y -= knockback;
+			target->position.x -= knockback;
+			break;
+		case 3:
+			target->position.x -= knockback;
+			break;
+		case 4:
+			target->position.y += knockback;
+			target->position.x -= knockback;
+			break;
+		case 5:
+			target->position.y += knockback;
+			break;
+		case 6:
+			target->position.y += knockback;
+			target->position.x += knockback;
+			break;
+		case 7:
+			target->position.x += knockback;
+			break;
+		case 8:
+			target->position.y -= knockback;
+			target->position.x += knockback;
+			break;
+		}
 	}
 
 }
