@@ -17,15 +17,15 @@ void combo_router(Entity *player, int player_input){
 		case 1:
 			if (input_1 = 1){
 				//Light Attack 1
-				combat_hit(player, 1, 100);
+				combat_hit(player, 1, 100,5);
 			}
 			else if (input_1 = 2){
 				//Medium Attack 1
-				combat_hit(player, 2, 200);
+				combat_hit(player, 2, 200, 7);
 			}
 			else if (input_1 = 3){
 				//Heavy Attack 
-				combat_hit(player, 2, 300);
+				combat_hit(player, 2, 300, 10);
 			}
 			else{
 				input_clear();
@@ -77,7 +77,7 @@ void input_clear(){
 	input_count = 0;
 }
 
-void combat_hit(Entity *player, float hitstun, float knockback){
+void combat_hit(Entity *player, float hitstun, float knockback, int ex){
 
 	//sets target variable 
 	Entity *target = player_target();
@@ -87,7 +87,7 @@ void combat_hit(Entity *player, float hitstun, float knockback){
 
 		//applies hitstun 
 		target->hitstun += hitstun;
-		
+		player->meter += ex;
 		//applies knockback
 		switch (player->angle){
 		case 1:

@@ -19,6 +19,8 @@ typedef struct Entity_S{
 	float		starting_height;
 	float		health;
 	float		stamina;
+	float		meter;
+	float		aoe_range;
 	float		velocity;
 	int			jumptime;
 	int			dashtime;
@@ -27,7 +29,6 @@ typedef struct Entity_S{
 	float		sprintFactor;
 	int			invincible;
 	float		hitstun;
-
 	char		*model;
 	Matrix4		modelMatrix;
 	char		name;

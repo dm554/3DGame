@@ -36,8 +36,11 @@ void player_stat_reset(Entity *self);
 
 void player_increment(Entity *self);
 
+void player_attack_rise(Entity *self, int range);
+
 Entity *player_active();
 
 Entity *player_target();
+
 
 #endif

@@ -130,6 +130,9 @@ void player_ability(Entity *self, Uint8 *buttons){
 			case SDLK_r:
 				combat_engage(self, 3);
 				break;
+			case SDLK_1:
+				player_attack_rise(self, 20);
+				break;
 			default:
 				break;
 			}
@@ -228,3 +231,26 @@ void player_increment(Entity *self){
 Entity *player_target(){
 	return target;
 }
+
+void player_attack_rise(Entity *self, int range){
+	self->collision_offset.x += range;
+	self->collision_offset.y += range;
+	player_target()->position.z += 5;
+	self->collision_offset.x -= range;
+	self->collision_offset.y -= range;
+	slog("attack rise");
+}
+
+void player_attack_stun(Entity *self, int range);
+void player_attack_knockback(Entity *self, int range);
+
+void player_ability_heal(Entity *self){ 
+	if (self->meter > 50){
+		self->health += (self->meter = -50);
+	} 
+	else if (self->meter == 50){
+		self->health += 50;
+	}
+}
+
+void player_ability_store(Entity *self);

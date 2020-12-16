@@ -11,7 +11,7 @@ void combat_engage(Entity *player, int player_input);
 
 void combo_router(Entity *player, int attack);
 
-void combat_hit(Entity *player, float hitstun, float knockback);
+void combat_hit(Entity *player, float hitstun, float knockback, int ex);
 
 void input_clear();
 
