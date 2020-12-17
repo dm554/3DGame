@@ -42,5 +42,9 @@ Entity *player_active();
 
 Entity *player_target();
 
+void player_aoe_checker(Entity *self, float range, float knockback, float hitstun, float knockup);
+
+int player_aoe_range_check(Entity *self, Entity *enemy, float maxRange);
+
 
 #endif

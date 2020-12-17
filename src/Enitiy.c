@@ -1,10 +1,7 @@
 #include "Entity.h"
 #include "simple_logger.h"
 
-typedef struct{
-	Entity *entity_list;
-	Uint32 entity_count;
-}EntityManager;
+
 
 static EntityManager entity_manager = { 0 };
 
@@ -136,4 +133,8 @@ int entity_collide_calc(Entity *ent1, Entity *ent2){
 	}
 	slog("collision detected");
 	return 1;
+}
+
+EntityManager get_entity_manager(){
+	return entity_manager;
 }

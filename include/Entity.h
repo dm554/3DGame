@@ -23,6 +23,7 @@ typedef struct Entity_S{
 	float		aoe_range;
 	float		velocity;
 	int			jumptime;
+	int			chi;
 	int			dashtime;
 	int			speedPad;
 	int			speedUp;
@@ -39,6 +40,11 @@ typedef struct Entity_S{
 	void(*collide)(struct Entity_S *self);
 
 }Entity;
+
+typedef struct{
+	Entity *entity_list;
+	Uint32 entity_count;
+}EntityManager;
 
 void entity_manager_init(Uint32 maxEntities);
 void entity_manager_close();
@@ -59,6 +65,8 @@ Entity *entity_new();
 
 Entity entity_update(Entity *self);
 Entity entity_free(Entity *self);
+
+EntityManager get_entity_manager();
 
 
 #endif

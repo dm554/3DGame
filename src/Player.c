@@ -233,12 +233,15 @@ Entity *player_target(){
 }
 
 void player_attack_rise(Entity *self, int range){
-	self->collision_offset.x += range;
+	/*self->collision_offset.x += range;
 	self->collision_offset.y += range;
 	player_target()->position.z += 5;
 	self->collision_offset.x -= range;
 	self->collision_offset.y -= range;
 	slog("attack rise");
+	*/
+
+	player_aoe_checker(self, 10, 0, 0, 10);
 }
 
 void player_attack_stun(Entity *self, int range);
@@ -253,4 +256,49 @@ void player_ability_heal(Entity *self){
 	}
 }
 
-void player_ability_store(Entity *self);
+void player_ability_chi(Entity *self){
+	
+	if (self->meter >= 50){
+		if (self->chi < 2){
+			self->chi++;
+			self->meter -= 50;
+		}
+		else if (self->chi == 2){
+			self->chi = 0;
+			//chi blast
+		}
+	}
+
+}
+
+void player_aoe_checker(Entity *self, float range, float knockback, float hitstun, float knockup){
+	EntityManager entity_manager;
+	int i;
+	if (!self)return;
+	
+	entity_manager = get_entity_manager();
+
+	for (i = 0; i < entity_manager.entity_count; i++)
+	{
+		if (!entity_manager.entity_list[i]._inuse)continue;
+		if (&entity_manager.entity_list[i] == self)continue;
+		
+		if (player_aoe_range_check(self, &entity_manager.entity_list[i], range)){
+			entity_manager.entity_list[i].position.z += knockup;
+		}
+	}
+}
+
+int player_aoe_range_check(Entity *self, Entity *enemy, float maxRange){
+	float distancex = abs(self->position.x - enemy->position.x);
+	float distancey = abs(self->position.y - enemy->position.y);
+
+	if (distancex <= maxRange && distancey <= maxRange){
+		return 1;
+	}
+	else{
+		return 0;
+	}
+}
+
+
