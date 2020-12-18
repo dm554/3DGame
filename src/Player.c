@@ -233,14 +233,6 @@ Entity *player_target(){
 }
 
 void player_attack_rise(Entity *self, int range){
-	/*self->collision_offset.x += range;
-	self->collision_offset.y += range;
-	player_target()->position.z += 5;
-	self->collision_offset.x -= range;
-	self->collision_offset.y -= range;
-	slog("attack rise");
-	*/
-
 	player_aoe_checker(self, 10, 0, 0, 10);
 }
 

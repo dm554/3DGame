@@ -110,6 +110,7 @@
     <ClInclude Include="..\include\Enemy2.h" />
     <ClInclude Include="..\include\Enemy3.h" />
     <ClInclude Include="..\include\Entity.h" />
+    <ClInclude Include="..\include\file_handler.h" />
     <ClInclude Include="..\include\Floor.h" />
     <ClInclude Include="..\include\gf3d_camera.h" />
     <ClInclude Include="..\include\gf3d_commands.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="..\src\Enemy2.c" />
     <ClCompile Include="..\src\Enemy3.c" />
     <ClCompile Include="..\src\Enitiy.c" />
+    <ClCompile Include="..\src\file_handler.c" />
     <ClCompile Include="..\src\Floor.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\gf3d_camera.c" />
