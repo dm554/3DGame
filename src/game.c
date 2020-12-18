@@ -10,7 +10,7 @@
 #include "gf3d_model.h"
 #include "gf3d_camera.h"
 #include "gf3d_texture.h"
-
+#include "gf3d_sprite.h"
 #include "Entity.h"
 #include "Player.h"
 #include "Cube.h"
@@ -32,6 +32,12 @@ int main(int argc,char *argv[])
     const Uint8 * keys;
     Uint32 bufferFrame = 0;
     VkCommandBuffer commandBuffer;
+	
+	Sprite *mouse = NULL;
+	int mousex, mousey;
+	Uint32 mouseFrame = 0;
+	float frame = 0;
+	
 	Entity *dino;
 	Entity *cube;
 	Entity *cube1;
@@ -71,6 +77,7 @@ int main(int argc,char *argv[])
 	
 	entity_manager_init(32);
     
+	mouse = gf3d_sprite_load("images/pointer.png", 32, 32, 16);
     // main game loop
     slog("gf3d main loop begin");
 	dino = player_new();
@@ -105,9 +112,15 @@ int main(int argc,char *argv[])
         keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
         //update game things here
         
+		SDL_GetMouseState(&mousex, &mousey);
+		slog("mouse (%i,%i)", mousex, mousey);
 		entity_update_all();
 		gf3d_camera_update_position();
-        //gf3d_vgraphics_rotate_camera(0.001);
+		
+		frame = frame + 0.05;
+		if (frame >= 24)frame = 0;
+		mouseFrame = (mouseFrame + 1) % 16;
+		//gf3d_vgraphics_rotate_camera(0.001);
 		
 		/*
 		gfc_matrix_rotate(
@@ -125,14 +138,23 @@ int main(int argc,char *argv[])
         // configure render command for graphics command pool
         // for each mesh, get a command and configure it from the pool
         bufferFrame = gf3d_vgraphics_render_begin();
-        gf3d_pipeline_reset_frame(gf3d_vgraphics_get_graphics_pipeline(),bufferFrame);
-        commandBuffer = gf3d_command_rendering_begin(bufferFrame);
+       
+		gf3d_pipeline_reset_frame(gf3d_vgraphics_get_graphics_model_pipeline(), bufferFrame);
+		gf3d_pipeline_reset_frame(gf3d_vgraphics_get_graphics_overlay_pipeline(), bufferFrame);
+
+		commandBuffer = gf3d_command_rendering_begin(bufferFrame, gf3d_vgraphics_get_graphics_model_pipeline());
 
 		entity_draw_all(bufferFrame, commandBuffer);
 
 		//gf3d_model_draw(dino->model,bufferFrame,commandBuffer, dino->modelMatrix);
         //gf3d_model_draw(skybox,bufferFrame,commandBuffer,skyboxmat);
-            
+		gf3d_command_rendering_end(commandBuffer);
+
+		// 2D overlay rendering
+		commandBuffer = gf3d_command_rendering_begin(bufferFrame, gf3d_vgraphics_get_graphics_overlay_pipeline());
+
+		gf3d_sprite_draw(mouse, vector2d(mousex, mousey), mouseFrame, bufferFrame, commandBuffer);
+
 		gf3d_command_rendering_end(commandBuffer);
             
         gf3d_vgraphics_render_end(bufferFrame);
