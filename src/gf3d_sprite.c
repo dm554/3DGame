@@ -43,6 +43,7 @@ typedef struct
 void gf3d_sprite_update_basic_descriptor_set(Sprite *model, VkDescriptorSet descriptorSet, Uint32 chainIndex, Matrix4 modelMat, Uint32 frame);
 void gf3d_sprite_create_uniform_buffer(Sprite *sprite);
 void gf3d_sprite_create_vertex_buffer(Sprite *sprite);
+void gf3d_sprite_delete(Sprite *sprite);
 
 static SpriteManager gf3d_sprite = { 0 };
 
@@ -52,7 +53,7 @@ void gf3d_sprite_manager_close()
 	int i;
 	for (i = 0; i < gf3d_sprite.max_sprites; i++)
 	{
-		gf3d_sprite_free(&gf3d_sprite.sprite_list[i]);
+		gf3d_sprite_delete(&gf3d_sprite.sprite_list[i]);
 	}
 	if (gf3d_sprite.sprite_list)
 	{
@@ -152,6 +153,12 @@ Sprite *gf3d_sprite_new()
 Sprite * gf3d_sprite_load(char * filename, int frame_width, int frame_height, Uint32 frames_per_line)
 {
 	Sprite *sprite;
+	sprite = gf3d_sprite_get_by_filename(filename);
+	if (sprite)
+	{
+		sprite->_inuse++;
+		return sprite;
+	}
 	sprite = gf3d_sprite_new();
 	if (!sprite)
 	{
@@ -168,13 +175,23 @@ Sprite * gf3d_sprite_load(char * filename, int frame_width, int frame_height, Ui
 	if (frame_height < 0)frame_height = sprite->texture->height;
 	sprite->frameWidth = frame_width;
 	sprite->frameHeight = frame_height;
-	sprite->framesPerLine = frames_per_line;
+
+	if (frames_per_line)sprite->framesPerLine = frames_per_line;
+	else sprite->framesPerLine = 1;
+	
 	gfc_line_cpy(sprite->filename, filename);
 	gf3d_sprite_create_vertex_buffer(sprite);
 	return sprite;
 }
 
 void gf3d_sprite_free(Sprite *sprite)
+{
+	if (!sprite)return;
+	sprite->_inuse--;
+	if (sprite->_inuse <= 0)gf3d_sprite_delete(sprite);
+}
+
+void gf3d_sprite_delete(Sprite *sprite)
 {
 	int i;
 	if (!sprite)return;
@@ -220,7 +237,7 @@ void gf3d_sprite_render(Sprite *sprite, VkCommandBuffer commandBuffer, VkDescrip
 }
 
 
-void gf3d_sprite_draw(Sprite *sprite, Vector2D position, Uint32 frame, Uint32 buffer_frame, VkCommandBuffer commandBuffer)
+void gf3d_sprite_draw(Sprite *sprite, Vector2D position, Vector2D scale, Uint32 frame, Uint32 buffer_frame, VkCommandBuffer commandBuffer)
 {
 	VkDescriptorSet *descriptorSet = NULL;
 	Matrix4 modelMat;
@@ -238,6 +255,10 @@ void gf3d_sprite_draw(Sprite *sprite, Vector2D position, Uint32 frame, Uint32 bu
 		slog("failed to get a free descriptor Set for sprite rendering");
 		return;
 	}
+	/*gfc_matrix_scale(
+		modelMat,
+		vector3d(scale.x, scale.y, 1),
+		modelMat);*/
 	gfc_matrix_make_translation(
 		modelMat,
 		vector3d(position.x * 2 / (float)extent.width, position.y * 2 / (float)extent.height, 0));

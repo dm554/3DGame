@@ -3,4 +3,6 @@
 
 void file_read(char *path);
 
+void get_float(char *path, char *key, float *endval);
+
 #endif

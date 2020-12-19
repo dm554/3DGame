@@ -1,17 +1,22 @@
 #include "Player.h"
 #include "SDL.h"
 #include "combat.h"
+#include "file_handler.h"
+
 static Entity *THE_PLAYER;
 static Entity *target;
 
 Entity *player_new(){
 
 	Entity *self;
+	char *def;
+
 	self = entity_new();
 	self->model = gf3d_model_load("dino");
 	gfc_matrix_identity(self->modelMatrix);
 	self->think = player_think;
 	self->collide = player_collision;
+	def = "def/player.json";
 
 	//PLAYER STATS
 	self->velocity = 1;
@@ -22,6 +27,10 @@ Entity *player_new(){
 	self->health = 50;
 	self->sprintFactor = 1;
 	self->starting_height = self->position.z;
+
+	get_float(def, "x", &self->position.x);
+	get_float(def, "y", &self->position.y);
+	get_float(def, "z", &self->position.z);
 
 	//Collider
 	self->collision_offset = vector3d(5, 5, 5);
@@ -34,7 +43,7 @@ void player_think(Entity *self){
 	player_input(self);
 	player_gravity(self);
 	//slog("Health: %f", self->health);
-	//slog("X: %f, Y: %f", self->position.x, self->position.y);
+	slog("X: %f, Y: %f, Z: %f", self->position.x, self->position.y, self->position.z);
 }
 
 void player_input(Entity *self){

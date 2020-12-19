@@ -1,9 +1,10 @@
 #include <SDL.h>            
 #include <stdlib.h>
+#include <SDL_ttf.h>
 #include "simple_logger.h"
 #include "gfc_vector.h"
 #include "gfc_matrix.h"
-
+#include "SDL.h"   
 #include "gf3d_vgraphics.h"
 #include "gf3d_pipeline.h"
 #include "gf3d_swapchain.h"
@@ -24,6 +25,8 @@
 
 #include "Camera.h"
 
+
+
 int main(int argc,char *argv[])
 {
     int done = 0;
@@ -33,6 +36,7 @@ int main(int argc,char *argv[])
     Uint32 bufferFrame = 0;
     VkCommandBuffer commandBuffer;
 	
+	Sprite *hud = NULL;
 	Sprite *mouse = NULL;
 	int mousex, mousey;
 	Uint32 mouseFrame = 0;
@@ -55,6 +59,7 @@ int main(int argc,char *argv[])
     //Matrix4 modelMat;
     Model *skybox;
     Matrix4 skyboxmat;
+
     
     for (a = 1; a < argc;a++)
     {
@@ -78,6 +83,7 @@ int main(int argc,char *argv[])
 	entity_manager_init(32);
     
 	mouse = gf3d_sprite_load("images/pointer.png", 32, 32, 16);
+	hud = gf3d_sprite_load("images/hud.png", -1, -1, 0);
     // main game loop
     slog("gf3d main loop begin");
 	dino = player_new();
@@ -113,7 +119,6 @@ int main(int argc,char *argv[])
         //update game things here
         
 		SDL_GetMouseState(&mousex, &mousey);
-		slog("mouse (%i,%i)", mousex, mousey);
 		entity_update_all();
 		gf3d_camera_update_position();
 		
@@ -153,7 +158,8 @@ int main(int argc,char *argv[])
 		// 2D overlay rendering
 		commandBuffer = gf3d_command_rendering_begin(bufferFrame, gf3d_vgraphics_get_graphics_overlay_pipeline());
 
-		gf3d_sprite_draw(mouse, vector2d(mousex, mousey), mouseFrame, bufferFrame, commandBuffer);
+		gf3d_sprite_draw(hud, vector2d(0, 0), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		gf3d_sprite_draw(mouse, vector2d(mousex, mousey), vector2d(1, 1), mouseFrame, bufferFrame, commandBuffer);
 
 		gf3d_command_rendering_end(commandBuffer);
             
