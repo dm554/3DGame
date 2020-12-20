@@ -1,5 +1,12 @@
 {
     "x": 10,
     "y": 10,
-    "z": 0
+    "z": 0,
+    "velocity" : 1,
+	"state" : 1,
+	"gravity" : 0.3,
+	"stamina" : 100,
+	"speedPad" : 0,
+	"health" : 100,
+	"sprintFactor" : 1
 }

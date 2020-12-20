@@ -22,6 +22,7 @@
 #include "Enemy1.h"
 #include "Enemy2.h"
 #include "Enemy3.h"
+#include "HUD.h"
 
 #include "Camera.h"
 
@@ -36,12 +37,14 @@ int main(int argc,char *argv[])
     Uint32 bufferFrame = 0;
     VkCommandBuffer commandBuffer;
 	
-	Sprite *hud = NULL;
+	//Sprite *hud = NULL;
+	//Sprite *hbar = NULL;
 	Sprite *mouse = NULL;
 	int mousex, mousey;
 	Uint32 mouseFrame = 0;
 	float frame = 0;
-	
+	HUD *hud = (HUD *)malloc(sizeof(HUD));
+
 	Entity *dino;
 	Entity *cube;
 	Entity *cube1;
@@ -83,11 +86,15 @@ int main(int argc,char *argv[])
 	entity_manager_init(32);
     
 	mouse = gf3d_sprite_load("images/pointer.png", 32, 32, 16);
-	hud = gf3d_sprite_load("images/hud.png", -1, -1, 0);
+	//hud = gf3d_sprite_load("images/healthbar.png", -1, -1, 0);
+	//hbar = gf3d_sprite_load("images/hbar.png", -1, -1, 0);
+
+	
     // main game loop
     slog("gf3d main loop begin");
 	dino = player_new();
 	floor = floor_new();
+	//hud_new(hud);
 	/*
 	cube = cube_new(0, 155);
 	cube1 = cube_new(1, 125);
@@ -121,7 +128,7 @@ int main(int argc,char *argv[])
 		SDL_GetMouseState(&mousex, &mousey);
 		entity_update_all();
 		gf3d_camera_update_position();
-		
+		hud_update(hud);
 		frame = frame + 0.05;
 		if (frame >= 24)frame = 0;
 		mouseFrame = (mouseFrame + 1) % 16;
@@ -158,7 +165,16 @@ int main(int argc,char *argv[])
 		// 2D overlay rendering
 		commandBuffer = gf3d_command_rendering_begin(bufferFrame, gf3d_vgraphics_get_graphics_overlay_pipeline());
 
-		gf3d_sprite_draw(hud, vector2d(0, 0), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		//HUD Drawing
+		gf3d_sprite_draw(hud->health, vector2d(-50, -20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		gf3d_sprite_draw(hud->healthbar, vector2d(hud->barposition.x, -20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+
+		gf3d_sprite_draw(hud->stamina, vector2d(-50, 20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		gf3d_sprite_draw(hud->staminabar, vector2d(hud->barposition.y, 20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+
+		gf3d_sprite_draw(hud->special, vector2d(-50, 60), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		gf3d_sprite_draw(hud->specialbar, vector2d(hud->barposition.z, 60), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		
 		gf3d_sprite_draw(mouse, vector2d(mousex, mousey), vector2d(1, 1), mouseFrame, bufferFrame, commandBuffer);
 
 		gf3d_command_rendering_end(commandBuffer);

@@ -19,7 +19,7 @@ Entity *player_new(){
 	def = "def/player.json";
 
 	//PLAYER STATS
-	self->velocity = 1;
+	/*self->velocity = 1;
 	self->state = 1;
 	self->gravity = 0.3;
 	self->stamina = 100;
@@ -27,10 +27,21 @@ Entity *player_new(){
 	self->health = 50;
 	self->sprintFactor = 1;
 	self->starting_height = self->position.z;
+	*/
 
+	get_float(def, "velocity", &self->velocity);
+	//get_float(def, "state", &self->state);
+	get_float(def, "gravity", &self->gravity);
+	get_float(def, "stamina", &self->stamina);
+	//get_float(def, "speedPad", &self->speedPad);
+	get_float(def, "health", &self->health);
+	get_float(def, "sprintFactor", &self->sprintFactor);
+	get_float(def, "z", &self->position.z);
 	get_float(def, "x", &self->position.x);
 	get_float(def, "y", &self->position.y);
-	get_float(def, "z", &self->position.z);
+
+	self->starting_height = self->position.z;
+
 
 	//Collider
 	self->collision_offset = vector3d(5, 5, 5);
@@ -43,7 +54,7 @@ void player_think(Entity *self){
 	player_input(self);
 	player_gravity(self);
 	//slog("Health: %f", self->health);
-	slog("X: %f, Y: %f, Z: %f", self->position.x, self->position.y, self->position.z);
+	//slog("X: %f, Y: %f, Z: %f", self->position.x, self->position.y, self->position.z);
 }
 
 void player_input(Entity *self){
@@ -233,7 +244,7 @@ void player_increment(Entity *self){
 		self->velocity = 20;
 	}
 	else{
-		self->stamina += 0.1;
+		if (self->stamina < 100){ self->stamina += 0.01; }
 	}
 }
 

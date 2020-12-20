@@ -124,6 +124,7 @@
     <ClInclude Include="..\include\gf3d_validation.h" />
     <ClInclude Include="..\include\gf3d_vgraphics.h" />
     <ClInclude Include="..\include\gf3d_vqueues.h" />
+    <ClInclude Include="..\include\HUD.h" />
     <ClInclude Include="..\include\JumpPad.h" />
     <ClInclude Include="..\include\Player.h" />
     <ClInclude Include="..\include\SpeedPad.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="..\src\gf3d_validation.c" />
     <ClCompile Include="..\src\gf3d_vgraphics.c" />
     <ClCompile Include="..\src\gf3d_vqueues.c" />
+    <ClCompile Include="..\src\HUD.c" />
     <ClCompile Include="..\src\JumpPad.c" />
     <ClCompile Include="..\src\Player.c" />
     <ClCompile Include="..\src\SpeedPad.c" />
