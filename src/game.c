@@ -23,6 +23,7 @@
 #include "Enemy2.h"
 #include "Enemy3.h"
 #include "HUD.h"
+#include "Menu.h"
 
 #include "Camera.h"
 
@@ -37,12 +38,6 @@ int main(int argc,char *argv[])
     Uint32 bufferFrame = 0;
     VkCommandBuffer commandBuffer;
 	
-	//Sprite *hud = NULL;
-	//Sprite *hbar = NULL;
-	Sprite *mouse = NULL;
-	int mousex, mousey;
-	Uint32 mouseFrame = 0;
-	float frame = 0;
 	HUD *hud = (HUD *)malloc(sizeof(HUD));
 
 	Entity *dino;
@@ -58,10 +53,6 @@ int main(int argc,char *argv[])
 	Entity *enemy1;
 	Entity *enemy2;
 	Entity *enemy3;
-	//Model *model;
-    //Matrix4 modelMat;
-    Model *skybox;
-    Matrix4 skyboxmat;
 
     
     for (a = 1; a < argc;a++)
@@ -85,16 +76,11 @@ int main(int argc,char *argv[])
 	
 	entity_manager_init(32);
     
-	mouse = gf3d_sprite_load("images/pointer.png", 32, 32, 16);
-	//hud = gf3d_sprite_load("images/healthbar.png", -1, -1, 0);
-	//hbar = gf3d_sprite_load("images/hbar.png", -1, -1, 0);
 
-	
-    // main game loop
-    slog("gf3d main loop begin");
+	//Entity Initialization
 	dino = player_new();
 	floor = floor_new();
-	//hud_new(hud);
+
 	/*
 	cube = cube_new(0, 155);
 	cube1 = cube_new(1, 125);
@@ -111,74 +97,58 @@ int main(int argc,char *argv[])
 	enemy2 = enemy2_new();
 	enemy3 = enemy3_new();
 	
-	//dino->model = gf3d_model_load("dino");
-    //gfc_matrix_identity(dino->modelMatrix);
-    //skybox = gf3d_model_load("skybox");
-    //gfc_matrix_identity(skyboxmat);
-    //gfc_matrix_make_translation(
-     //       modelMat2,
-       //     vector3d(10,0,0)
-        //);
+	SceneController(2);
+	// main game loop
+	slog("gf3d main loop begin");
     while(!done)
     {
         SDL_PumpEvents();   // update SDL's internal event structures
-        keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
-        //update game things here
-        
-		SDL_GetMouseState(&mousex, &mousey);
-		entity_update_all();
-		gf3d_camera_update_position();
-		hud_update(hud);
-		frame = frame + 0.05;
-		if (frame >= 24)frame = 0;
-		mouseFrame = (mouseFrame + 1) % 16;
-		//gf3d_vgraphics_rotate_camera(0.001);
-		
-		/*
-		gfc_matrix_rotate(
-            player_active()->modelMatrix,
-            player_active()->modelMatrix,
-            0.002,
-            vector3d(1,0,0));
-		gfc_matrix_rotate(
-            modelMat2,
-            modelMat2,
-            0.002,
-            vector3d(0,0,1));
-			*/
+		keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
 
+		//update game things here
+		if (get_genUpdates() > 0){
+			entity_update_all();
+			gf3d_camera_update_position();
+			hud_update(hud);
+		}
+		if (get_genUpdates() < 1){
+			menu_update(menu_get_active());
+		}
         // configure render command for graphics command pool
         // for each mesh, get a command and configure it from the pool
         bufferFrame = gf3d_vgraphics_render_begin();
-       
 		gf3d_pipeline_reset_frame(gf3d_vgraphics_get_graphics_model_pipeline(), bufferFrame);
 		gf3d_pipeline_reset_frame(gf3d_vgraphics_get_graphics_overlay_pipeline(), bufferFrame);
-
 		commandBuffer = gf3d_command_rendering_begin(bufferFrame, gf3d_vgraphics_get_graphics_model_pipeline());
 
-		entity_draw_all(bufferFrame, commandBuffer);
-
-		//gf3d_model_draw(dino->model,bufferFrame,commandBuffer, dino->modelMatrix);
-        //gf3d_model_draw(skybox,bufferFrame,commandBuffer,skyboxmat);
+		//Entity Draw
+		if (get_genUpdates()>0){
+			entity_draw_all(bufferFrame, commandBuffer);
+		}
+		
 		gf3d_command_rendering_end(commandBuffer);
+
 
 		// 2D overlay rendering
 		commandBuffer = gf3d_command_rendering_begin(bufferFrame, gf3d_vgraphics_get_graphics_overlay_pipeline());
 
 		//HUD Drawing
-		gf3d_sprite_draw(hud->health, vector2d(-50, -20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
-		gf3d_sprite_draw(hud->healthbar, vector2d(hud->barposition.x, -20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		if (get_genUpdates()>0){
+			gf3d_sprite_draw(hud->health, vector2d(-50, -20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+			gf3d_sprite_draw(hud->healthbar, vector2d(hud->barposition.x, -20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+			gf3d_sprite_draw(hud->stamina, vector2d(-50, 20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+			gf3d_sprite_draw(hud->staminabar, vector2d(hud->barposition.y, 20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+			gf3d_sprite_draw(hud->special, vector2d(-50, 60), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+			gf3d_sprite_draw(hud->specialbar, vector2d(hud->barposition.z, 60), vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		}
 
-		gf3d_sprite_draw(hud->stamina, vector2d(-50, 20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
-		gf3d_sprite_draw(hud->staminabar, vector2d(hud->barposition.y, 20), vector2d(2, 2), 0, bufferFrame, commandBuffer);
-
-		gf3d_sprite_draw(hud->special, vector2d(-50, 60), vector2d(2, 2), 0, bufferFrame, commandBuffer);
-		gf3d_sprite_draw(hud->specialbar, vector2d(hud->barposition.z, 60), vector2d(2, 2), 0, bufferFrame, commandBuffer);
-		
-		gf3d_sprite_draw(mouse, vector2d(mousex, mousey), vector2d(1, 1), mouseFrame, bufferFrame, commandBuffer);
-
-		gf3d_command_rendering_end(commandBuffer);
-            
+		//Menu Drawing
+		if (get_genUpdates() < 1){
+			gf3d_sprite_draw(menu_get_active()->backsprite, menu_get_active()->backPosition, vector2d(2, 2), 0, bufferFrame, commandBuffer);
+			gf3d_sprite_draw(menu_get_active()->cursorSprite, menu_get_active()->cursorPostion, vector2d(2, 2), 0, bufferFrame, commandBuffer);
+		}
+		//3D Rendering
+		gf3d_command_rendering_end(commandBuffer);   
         gf3d_vgraphics_render_end(bufferFrame);
 
         if (keys[SDL_SCANCODE_ESCAPE])done = 1; // exit condition
