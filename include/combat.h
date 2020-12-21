@@ -13,6 +13,8 @@ void combo_router(Entity *player, int attack);
 
 void combat_hit(Entity *player, float hitstun, float knockback, int ex);
 
+void knockback_applier(float knockback, Entity *target);
+
 void input_clear();
 
 void input_counter();

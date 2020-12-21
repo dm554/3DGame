@@ -151,8 +151,15 @@ void player_ability(Entity *self, Uint8 *buttons){
 				combat_engage(self, 3);
 				break;
 			case SDLK_1:
-				player_attack_rise(self, 20);
-				break;
+				player_attack_rise(self, 30);
+			case SDLK_2:
+				player_attack_stun(self, 30);
+			case SDLK_3:
+				player_ability_heal(self);
+			case SDLK_4:
+				player_attack_succ(self, 30);
+			case SDLK_5:
+				player_ability_chi(self);
 			default:
 				break;
 			}
@@ -252,20 +259,33 @@ Entity *player_target(){
 	return target;
 }
 
-void player_attack_rise(Entity *self, int range){
-	player_aoe_checker(self, 10, 0, 0, 10);
+void player_attack_rise(Entity *self, float range){
+	if (self->meter >= 50){
+		player_aoe_checker(self, range, 0, 0, 20);
+		self->meter -= 50;
+	}
 }
 
-void player_attack_stun(Entity *self, int range);
-void player_attack_knockback(Entity *self, int range);
+void player_attack_stun(Entity *self, float range){
+	if (self->meter >= 50){
+		player_aoe_checker(self, range, 0, 50, 0);
+		self->meter -= 50;
+	}
+}
+
+void player_attack_succ(Entity *self, float range){
+	if (self->meter >= 50){
+		player_aoe_checker(self, range, -30, 10, 0);
+		self->meter -= 50;
+	}
+}
 
 void player_ability_heal(Entity *self){ 
 	if (self->meter > 50){
-		self->health += (self->meter = -50);
-	} 
-	else if (self->meter == 50){
 		self->health += 50;
-	}
+		self->meter -= 50;
+	} 
+	if (self->health > 100){ self->health = 100; }
 }
 
 void player_ability_chi(Entity *self){
@@ -277,6 +297,8 @@ void player_ability_chi(Entity *self){
 		}
 		else if (self->chi == 2){
 			self->chi = 0;
+			self->health = 100;
+			self->stamina = 100;
 			//chi blast
 		}
 	}
@@ -297,6 +319,8 @@ void player_aoe_checker(Entity *self, float range, float knockback, float hitstu
 		
 		if (player_aoe_range_check(self, &entity_manager.entity_list[i], range)){
 			entity_manager.entity_list[i].position.z += knockup;
+			knockback_applier(knockback ,&entity_manager.entity_list[i]);
+			entity_manager.entity_list[i].hitstun += hitstun;
 		}
 	}
 }

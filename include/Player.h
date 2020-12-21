@@ -36,7 +36,15 @@ void player_stat_reset(Entity *self);
 
 void player_increment(Entity *self);
 
-void player_attack_rise(Entity *self, int range);
+void player_attack_rise(Entity *self, float range);
+
+void player_attack_stun(Entity *self, float range);
+
+void player_attack_succ(Entity *self, float range);
+
+void player_ability_chi(Entity *self);
+
+void player_ability_heal(Entity *self);
 
 Entity *player_active();
 

@@ -13,4 +13,5 @@ void enemy1_collision(Entity *self, Entity *ent2);
 
 void enemy1_attack(Entity *self, Entity *ent2);
 
+void enemy_gravity(Entity *self);
 #endif
